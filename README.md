@@ -19,25 +19,6 @@ The dataset contains **5,337,414 training samples** spanning 3,601 time steps, w
 
 ---
 
-## 🗂️ Project Structure
-
-```
-├── data/
-│   ├── train.parquet
-│   └── test.parquet
-├── notebooks/
-│   ├── 01_eda.ipynb
-│   ├── 02_preprocessing.ipynb
-│   ├── 03_feature_engineering.ipynb
-│   └── 04_modelling.ipynb
-├── src/
-│   ├── features.py
-│   ├── model.py
-│   └── ensemble.py
-├── outputs/
-│   └── submission.csv
-└── README.md
-```
 
 ---
 
