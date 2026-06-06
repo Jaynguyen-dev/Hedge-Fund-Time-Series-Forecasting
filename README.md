@@ -60,26 +60,24 @@ Each horizon (1, 3, 10, 25) is trained on a **separate LightGBM model cluster** 
 
 #### Dual-Level Ensemble Architecture
 
-```
-Raw Parquet Data
-       │
-       ▼
-Split by Horizon (1, 3, 10, 25)
-       │
-  ┌────┴────┐
-  │         │
-Pipeline v1  Pipeline v2
-(Baseline)   (Advanced)
-Lags, Rolling  Winsorizing, Z-Scores,
-Means, Momentum  Recency Weights (λ=2.5)
-  │         │
-  └────┬────┘
-       │
-  Dual-Level Blending
-  0.4 × v1 + 0.6 × v2
-       │
-       ▼
-  Final Submission
+```mermaid
+flowchart LR
+    A[Raw Market Data] --> B[Horizon Split<br/>1 / 3 / 10 / 25]
+
+    B --> C[Pipeline v1<br/>Baseline Feature Engineering]
+    B --> D[Pipeline v2<br/>Advanced Feature Engineering]
+
+    C --> E[LightGBM Models]
+    D --> F[LightGBM Models]
+
+    E --> G[Prediction Set v1]
+    F --> H[Prediction Set v2]
+
+    G --> I[Weighted Ensemble]
+    H --> I
+
+    I --> J[0.4 × v1 + 0.6 × v2]
+    J --> K[Competition Submission]
 ```
 
 **Multi-Seed Averaging**: Each horizon trains 5 independent LightGBM models with seeds `{42, 2024, 777, 1337, 9999}`, averaged to reduce prediction variance.
